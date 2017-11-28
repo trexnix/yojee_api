@@ -1,15 +1,16 @@
 module YojeeApi
   module V1
-    module ApiHelper
+    class Base
+      include HTTParty
+      # base_uri YojeeApi.config.base_url + '/api/v1'
+      format :json
 
-      def self.extended(base)
-        base.send(:include, HTTParty)
-        base.send(:base_uri, YojeeApi.config.base_url + '/api/v1')
-        base.send(:format, :json)
+      def initialize(base_url = YojeeApi.config.base_url)
+        self.class.base_uri(base_url + '/api/v1')
       end
 
       def success?(result)
-        result.response.code.to_s.starts_with?("2") &&
+        result.response.code.to_s.start_with?("2") &&
           (json_body(result)["result"] == "ok" ||
             json_body(result)["status"] == "ok")
       end
@@ -27,27 +28,27 @@ module YojeeApi
       end
 
       def api_post(*arg)
-        result = post *arg
+        result = self.class.post *arg
         build_response result
       end
 
       def api_get(*arg)
-        result = get *arg
+        result = self.class.get *arg
         build_response result
       end
 
       def api_put(*arg)
-        result = put *arg
+        result = self.class.put *arg
         build_response result
       end
 
       def api_delete(*arg)
-        result = delete *arg
+        result = self.class.delete *arg
         build_response result
       end
 
       def api_patch(*arg)
-        result = patch *arg
+        result = self.class.patch *arg
         build_response result
       end
     end

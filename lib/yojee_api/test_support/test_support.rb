@@ -22,40 +22,40 @@ module YojeeApi
 
     def setup_worker(company_id)
       phone = "+65" + FFaker::PhoneNumberSG.unique.mobile_number
-      response = YojeeApi::V1::Dispatcher::WorkerApi.register_worker(
+      response = YojeeApi::V1::Dispatcher.new.register_worker(
         name: FFaker::Name.unique.name,
         email: FFaker::Internet.unique.email,
         phone: phone,
         company_id: company_id
       )
-      raise ApiError, response.json_message unless response.success?
+      raise ApiError, response.message unless response.success?
       response.message
     end
 
     def create_company
-      response = YojeeApi::V1::LauncherApi.create_company(
+      response = YojeeApi::V1::Launcher.new.create_company(
         name: FFaker::Company.unique.name
       )
 
-      raise ApiError, response.json_message unless response.success?
+      raise ApiError, response.message unless response.success?
       response.message["id"]
     end
 
     def create_dispatcher(company_id:, email:, password:)
-      response = YojeeApi::V1::LauncherApi.create_user(
+      response = YojeeApi::V1::Launcher.new.create_user(
         name: FFaker::Name.unique.name,
         email: email,
         password: password,
         company_id: company_id
       )
 
-      raise ApiError, response.json_message unless response.success?
+      raise ApiError, response.message unless response.success?
       response.message["id"]
     end
 
     def login_user(email:, password:)
-      response = YojeeApi::V1::Dispatcher::UserApi.login_api_user(email: email, password: password)
-      raise ApiError, response.json_message unless response.success?
+      response = YojeeApi::V1::Dispatcher.new.login_api_user(email: email, password: password)
+      raise ApiError, response.message unless response.success?
       response.message['auth_token']
     end
   end

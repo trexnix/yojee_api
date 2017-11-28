@@ -1,9 +1,6 @@
 module YojeeApi
   module V1
-    module LauncherApi
-      module_function
-
-      extend ApiHelper
+    class Launcher < Base
 
       def create_company(name:, country: 'Singapore', currency: 'SGD')
         api_post '/launcher/company',
