@@ -11,7 +11,7 @@ require 'yojee_api/v1/launcher'
 require 'yojee_api/v1/dispatcher'
 
 module YojeeApi
-  # Your code goes here...
+  YOJEE_ADMIN_DEV_URL = 'http://driver-admin-dev.herokuapp.com'.freeze
 
   class << self
     def configure
@@ -19,7 +19,9 @@ module YojeeApi
     end
 
     def config
-      @config ||= Configuration.new
+      @config ||= Configuration.new.tap do |config|
+        config.base_url = YOJEE_ADMIN_DEV_URL
+      end
     end
   end
 end

@@ -1,15 +1,11 @@
 # YojeeApi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/yojee_api`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile with the latest tag:
 
 ```ruby
-gem 'yojee_api'
+gem 'yojee_api',git: 'https://github.com/yojee/yojee_api.git', tag: '0.1.2'
 ```
 
 And then execute:
@@ -22,11 +18,32 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Config Yojee's base url
+By default yojee_api will request Yojee's driver admin dev. To change the base_url:
+
+**global**
+YojeeApi.configure do |config|
+  config.base_url = 'localhost:3000'
+end
+
+**a specific api**
+YojeeApi::V1::Launcher.new('localhost:3000')
+
+### End-to-end test
+
+To setup a company with an admin account:
+`YojeeApi::TestSupport.setup_company`
+
+### Consume Yojee's api
+
+Create a company
+```
+YojeeApi::V1::Launcher.new.create_company('Lion')
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rspec spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
