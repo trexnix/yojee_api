@@ -22,12 +22,15 @@ Or install it yourself as:
 By default yojee_api will request Yojee's driver admin dev. To change the base_url:
 
 **global**
+```
 YojeeApi.configure do |config|
   config.base_url = 'localhost:3000'
 end
-
+```
 **a specific api**
+```
 YojeeApi::V1::Launcher.new('localhost:3000')
+```
 
 ### End-to-end test
 
