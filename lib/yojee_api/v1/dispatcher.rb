@@ -3,7 +3,7 @@ module YojeeApi
     class Dispatcher < Base
 
       def login_api_user(email:, password:)
-        result = post "/dispatcher/login",
+        result = api_post "/dispatcher/login",
                  body: {
                    email: email,
                    password: password
